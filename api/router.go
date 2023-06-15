@@ -23,6 +23,10 @@ func CreateRouter(uri string) (*gin.Engine, error) {
 
 	// routes
 	r.POST("/blinks/create/one", bc.insertOne)
+	r.POST("/blinks/create/many", bc.insertMany)
+	r.GET("/blinks/list/:id", bc.listOne)
+	r.GET("/blinks/list", bc.listAll)
+	r.PUT("/blinks/update/:id", bc.updateOne)
 
 	return r, nil
 }

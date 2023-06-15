@@ -1,7 +1,6 @@
 package api
 
 import (
-	"fmt"
 	"os"
 	"testing"
 
@@ -10,7 +9,9 @@ import (
 
 func TestCreateRouter(t *testing.T) {
 	uri := os.Getenv("MONGOURI")
+	assert.NotEmpty(t, uri)
+
 	c, err := CreateRouter(uri)
 	assert.NoError(t, err)
-	fmt.Println(c)
+	assert.NotEmpty(t, c)
 }
