@@ -78,6 +78,10 @@ func UpdateOne(ctx context.Context, coll *mongo.Collection, id string, in model.
 	var updateResult *mongo.UpdateResult
 
 	mongoid, err := primitive.ObjectIDFromHex(id)
+	fmt.Println()
+	fmt.Println("MONGOID")
+	fmt.Println(mongoid)
+
 	if err != nil {
 		return updateResult, err
 	}

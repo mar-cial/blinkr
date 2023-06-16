@@ -145,7 +145,7 @@ func TestListAll(t *testing.T) {
 }
 
 func TestUpdateOne(t *testing.T) {
-	path := Sprintf("/blinks/update/%s", testid)
+	path := fmt.Sprintf("/blinks/update/%s", testid)
 	fmt.Println("update one path")
 	fmt.Println(path)
 
@@ -153,11 +153,38 @@ func TestUpdateOne(t *testing.T) {
 	assert.NoError(t, err)
 
 	w := httptest.NewRecorder()
-	req, err := http.NewRequest(http.MethodGet, path, nil)
+
+	updatedBlink := model.GenerateRandomBlink()
+
+	// updated blink bytes
+	ubb, err := updatedBlink.Marshal()
+	assert.NoError(t, err)
+
+	req, err := http.NewRequest(http.MethodPut, path, bytes.NewReader(ubb))
 	assert.NoError(t, err)
 
 	router.ServeHTTP(w, req)
 
 	assert.Equal(t, http.StatusOK, w.Code)
 
+	fmt.Println("This is the body of update request")
+	fmt.Println(w.Body.String())
+}
+
+func TestDeleteOne(t *testing.T) {
+	path := fmt.Sprintf("/blinks/delete/%s", testid)
+	fmt.Println("delete one path")
+	fmt.Println(path)
+
+	router, err := CreateRouter(os.Getenv("MONGOURI"))
+	assert.NoError(t, err)
+
+	w := httptest.NewRecorder()
+	req, err := http.NewRequest(http.MethodDelete, path, nil)
+	assert.NoError(t, err)
+
+	router.ServeHTTP(w, req)
+
+	fmt.Println("This is the body of delete request")
+	fmt.Println(w.Body.String())
 }

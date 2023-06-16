@@ -27,6 +27,7 @@ func CreateRouter(uri string) (*gin.Engine, error) {
 	r.GET("/blinks/list/:id", bc.listOne)
 	r.GET("/blinks/list", bc.listAll)
 	r.PUT("/blinks/update/:id", bc.updateOne)
+	r.DELETE("/blinks/delete/:id", bc.deleteOne)
 
 	return r, nil
 }

@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"net/http"
 	"os"
 
@@ -93,6 +94,14 @@ func (b *blinksController) updateOne(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+
+	fmt.Println()
+	fmt.Println("update one controller input")
+	fmt.Println(input)
+	fmt.Println()
+
+	fmt.Println("id sent")
+	fmt.Println(id)
 
 	res, err := db.UpdateOne(c, coll, id, input)
 	if err != nil {
