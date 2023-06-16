@@ -51,8 +51,6 @@ func TestInsertOne(t *testing.T) {
 	assert.NoError(t, err)
 
 	testid = insertOneRes.InsertedID.(string)
-	fmt.Println("testid")
-	fmt.Println(testid)
 }
 
 func TestInsertMany(t *testing.T) {
@@ -65,9 +63,6 @@ func TestInsertMany(t *testing.T) {
 	bbs, err := json.Marshal(blinks)
 	assert.NoError(t, err)
 	assert.NotEmpty(t, bbs)
-
-	fmt.Println("string blinks marshaled in TestInsertMany")
-	fmt.Println(string(bbs))
 
 	w := httptest.NewRecorder()
 
@@ -85,14 +80,11 @@ func TestInsertMany(t *testing.T) {
 		b := insertManyRes.InsertedIDs[a].(string)
 		assert.NotEmpty(t, b)
 		assert.True(t, primitive.IsValidObjectID(b))
-		fmt.Printf("inserted id: %s\n", b)
 	}
 }
 
 func TestListOne(t *testing.T) {
 	path := fmt.Sprintf("/blinks/list/%s", testid)
-	fmt.Println("list one path")
-	fmt.Println(path)
 
 	router, err := CreateRouter(os.Getenv("MONGOURI"))
 	assert.NoError(t, err)
@@ -104,7 +96,6 @@ func TestListOne(t *testing.T) {
 	router.ServeHTTP(w, req)
 
 	assert.Equal(t, http.StatusOK, w.Code)
-	fmt.Println("test list one response")
 
 	var b model.Blink
 	err = json.NewDecoder(w.Body).Decode(&b)
@@ -117,8 +108,6 @@ func TestListOne(t *testing.T) {
 
 func TestListAll(t *testing.T) {
 	path := "/blinks/list"
-	fmt.Println("list all path")
-	fmt.Println(path)
 
 	router, err := CreateRouter(os.Getenv("MONGOURI"))
 	assert.NoError(t, err)
@@ -146,8 +135,6 @@ func TestListAll(t *testing.T) {
 
 func TestUpdateOne(t *testing.T) {
 	path := fmt.Sprintf("/blinks/update/%s", testid)
-	fmt.Println("update one path")
-	fmt.Println(path)
 
 	router, err := CreateRouter(os.Getenv("MONGOURI"))
 	assert.NoError(t, err)
@@ -166,15 +153,10 @@ func TestUpdateOne(t *testing.T) {
 	router.ServeHTTP(w, req)
 
 	assert.Equal(t, http.StatusOK, w.Code)
-
-	fmt.Println("This is the body of update request")
-	fmt.Println(w.Body.String())
 }
 
 func TestDeleteOne(t *testing.T) {
 	path := fmt.Sprintf("/blinks/delete/%s", testid)
-	fmt.Println("delete one path")
-	fmt.Println(path)
 
 	router, err := CreateRouter(os.Getenv("MONGOURI"))
 	assert.NoError(t, err)
@@ -184,7 +166,4 @@ func TestDeleteOne(t *testing.T) {
 	assert.NoError(t, err)
 
 	router.ServeHTTP(w, req)
-
-	fmt.Println("This is the body of delete request")
-	fmt.Println(w.Body.String())
 }

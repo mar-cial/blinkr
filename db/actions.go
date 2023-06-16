@@ -2,7 +2,6 @@ package db
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/mar-cial/blinkr/model"
 	"go.mongodb.org/mongo-driver/bson"
@@ -14,9 +13,6 @@ func InsertOne(ctx context.Context, coll *mongo.Collection, in model.Blink) (*mo
 	var doc interface{}
 	doc = in
 
-	fmt.Println("Received blink: ", in)
-	fmt.Println("Assigned doc: ", doc)
-
 	return coll.InsertOne(ctx, doc)
 }
 
@@ -25,12 +21,6 @@ func InsertMany(ctx context.Context, coll *mongo.Collection, in []model.Blink) (
 
 	for a := range in {
 		docs = append(docs, in[a])
-	}
-
-	fmt.Println("received blinks in insert many db action: ")
-	for b := range in {
-		fmt.Printf("title: \t%s\n", in[b].Title)
-		fmt.Printf("message: \t%s\n", in[b].Message)
 	}
 
 	return coll.InsertMany(ctx, docs, nil)
@@ -46,7 +36,6 @@ func ListOne(ctx context.Context, coll *mongo.Collection, id string) (model.Blin
 
 	if err := coll.FindOne(ctx, bson.M{"_id": mongoid}, nil).Decode(&blink); err != nil {
 		if err == mongo.ErrNoDocuments {
-			fmt.Println("no documents found")
 			return blink, err
 		}
 		return blink, err
@@ -60,14 +49,10 @@ func ListAll(ctx context.Context, coll *mongo.Collection) ([]model.Blink, error)
 
 	cur, err := coll.Find(ctx, bson.M{})
 	if err != nil {
-		fmt.Println("err finding docs")
-		fmt.Println(err.Error())
 		return blinks, err
 	}
 
 	if err := cur.All(ctx, &blinks); err != nil {
-		fmt.Println("err decoding documents")
-		fmt.Println(err.Error())
 		return blinks, err
 	}
 
@@ -78,10 +63,6 @@ func UpdateOne(ctx context.Context, coll *mongo.Collection, id string, in model.
 	var updateResult *mongo.UpdateResult
 
 	mongoid, err := primitive.ObjectIDFromHex(id)
-	fmt.Println()
-	fmt.Println("MONGOID")
-	fmt.Println(mongoid)
-
 	if err != nil {
 		return updateResult, err
 	}
