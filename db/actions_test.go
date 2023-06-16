@@ -2,7 +2,6 @@ package db
 
 import (
 	"context"
-	"fmt"
 	"os"
 	"testing"
 
@@ -19,8 +18,6 @@ func TestInsertOne(t *testing.T) {
 	ctx := context.Background()
 
 	uri := os.Getenv("MONGOURI")
-	fmt.Println("uri")
-	fmt.Println(uri)
 
 	blink := model.GenerateRandomBlink()
 
@@ -32,9 +29,6 @@ func TestInsertOne(t *testing.T) {
 	res, err := InsertOne(ctx, coll, blink)
 	assert.NoError(t, err)
 
-	fmt.Println("test response")
-	fmt.Println(res)
-
 	mongoid := res.InsertedID.(primitive.ObjectID)
 	testid = mongoid.Hex()
 }
@@ -43,8 +37,6 @@ func TestInsertMany(t *testing.T) {
 	ctx := context.Background()
 
 	uri := os.Getenv("MONGOURI")
-	fmt.Println("uri must be set still")
-	fmt.Println(uri)
 
 	blinks := model.GenerateRandomBlinkList(5)
 
@@ -55,17 +47,12 @@ func TestInsertMany(t *testing.T) {
 
 	res, err := InsertMany(ctx, coll, blinks)
 	assert.NoError(t, err)
-
-	fmt.Println("test response")
-	fmt.Println(res)
 }
 
 func TestListOne(t *testing.T) {
 	ctx := context.Background()
 
 	uri := os.Getenv("MONGOURI")
-	fmt.Println("uri must be set still")
-	fmt.Println(uri)
 
 	client, err := CreateClient(uri)
 	assert.NoError(t, err)
@@ -78,16 +65,12 @@ func TestListOne(t *testing.T) {
 	assert.True(t, primitive.IsValidObjectID(blinkRes.ID.Hex()))
 	assert.NotEmpty(t, blinkRes.Title)
 	assert.NotEmpty(t, blinkRes.Message)
-	fmt.Println("test list one response")
-	fmt.Println(blinkRes)
 }
 
 func TestListAll(t *testing.T) {
 	ctx := context.Background()
 
 	uri := os.Getenv("MONGOURI")
-	fmt.Println("uri must be set still")
-	fmt.Println(uri)
 
 	client, err := CreateClient(uri)
 	assert.NoError(t, err)
@@ -103,8 +86,6 @@ func TestListAll(t *testing.T) {
 		assert.True(t, primitive.IsValidObjectID(b.ID.Hex()))
 		assert.NotEmpty(t, b.Title)
 		assert.NotEmpty(t, b.Message)
-		fmt.Println("test list one response")
-		fmt.Println(b)
 	}
 }
 
@@ -112,8 +93,6 @@ func TestUpdateOne(t *testing.T) {
 	ctx := context.Background()
 
 	uri := os.Getenv("MONGOURI")
-	fmt.Println("uri must be set still")
-	fmt.Println(uri)
 
 	client, err := CreateClient(uri)
 	assert.NoError(t, err)
@@ -127,17 +106,12 @@ func TestUpdateOne(t *testing.T) {
 
 	updateRes, err := UpdateOne(ctx, coll, testid, in)
 	assert.NoError(t, err)
-
-	fmt.Println("Update result")
-	fmt.Println(updateRes)
 }
 
 func TestDeleteOne(t *testing.T) {
 	ctx := context.Background()
 
 	uri := os.Getenv("MONGOURI")
-	fmt.Println("uri must be set still")
-	fmt.Println(uri)
 
 	client, err := CreateClient(uri)
 	assert.NoError(t, err)
@@ -147,6 +121,4 @@ func TestDeleteOne(t *testing.T) {
 	delRes, err := DeleteOne(ctx, coll, testid)
 	assert.NoError(t, err)
 
-	fmt.Println("Delete result")
-	fmt.Println(delRes)
 }
