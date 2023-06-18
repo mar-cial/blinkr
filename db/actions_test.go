@@ -47,6 +47,7 @@ func TestInsertMany(t *testing.T) {
 
 	res, err := InsertMany(ctx, coll, blinks)
 	assert.NoError(t, err)
+	assert.Len(t, res.InsertedIDs, len(blinks))
 }
 
 func TestListOne(t *testing.T) {
@@ -106,6 +107,8 @@ func TestUpdateOne(t *testing.T) {
 
 	updateRes, err := UpdateOne(ctx, coll, testid, in)
 	assert.NoError(t, err)
+	assert.Equal(t, int64(1), updateRes.MatchedCount)
+	assert.Equal(t, int64(1), updateRes.ModifiedCount)
 }
 
 func TestDeleteOne(t *testing.T) {
@@ -121,4 +124,5 @@ func TestDeleteOne(t *testing.T) {
 	delRes, err := DeleteOne(ctx, coll, testid)
 	assert.NoError(t, err)
 
+	assert.Equal(t, int64(1), delRes.DeletedCount)
 }

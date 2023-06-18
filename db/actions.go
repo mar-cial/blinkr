@@ -10,8 +10,7 @@ import (
 )
 
 func InsertOne(ctx context.Context, coll *mongo.Collection, in model.Blink) (*mongo.InsertOneResult, error) {
-	var doc interface{}
-	doc = in
+	var doc interface{} = in
 
 	return coll.InsertOne(ctx, doc)
 }
