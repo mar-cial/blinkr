@@ -1,20 +1,23 @@
-import { Azeret_Mono } from "next/font/google";
 import Link from "next/link";
+import InsertBlink from "./insert";
 
-const main = Azeret_Mono({ subsets: ["latin"] });
+async function getData() {
+  try {
+    const res = await fetch("http://localhost:8000/blinks/list", { cache: "no-store" })
+    if (!res.ok) {
+      throw new Error("Network response was not ok")
+    }
 
-const getData = async () => {
-  const res = await fetch("http://localhost:8000/blinks/list");
-
-  if (!res.ok) {
-    throw new Error("Failed to fetch data");
+    return res.json()
+  } catch (err) {
+    console.log("There was a problem with your operation.")
+    console.log(err)
+    return []
   }
-
-  return res.json();
-};
+}
 
 export interface Blink {
-  _id: string;
+  _id?: string;
   title: string;
   message: string;
 }
@@ -23,19 +26,38 @@ export default async function Home() {
   const data: Blink[] = await getData();
 
   return (
-    <div className="flex flex-col gap-12 p-24">
-      <h1 className={`text-4xl ${main.className}`}>Blinkr.</h1>
-
-      <div className="flex flex-col gap-6">
-        {data.map((b) => (
-          <Link key={b._id} href={`/blinks/${b._id}`}>
-            <div>
-              <h3>{b.title}</h3>
-              <p>{b.message.slice(0, 20)}...</p>
-            </div>
-          </Link>
-        ))}
+    <>
+      <div>
+        <h3 className="text-3xl font-semibold">Insert new</h3>
+        <InsertBlink />
       </div>
-    </div>
+
+      <div>
+        <h3 className="text-3xl font-semibold">Current blinks</h3>
+      </div>
+
+
+      <div>
+        {!data ? (
+          <div>
+            <h3>Empty!</h3>
+          </div>
+        ) : (
+          <div className={'grid gap-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'}>
+            {
+              data.map((b) => {
+                return (
+                  <Link href={`/blinks/${b._id}`}>
+                    <div key={b._id}>
+                      <h3 className="text-xl font-medium">{b.title}</h3>
+                    </div>
+                  </Link>
+                )
+              })
+            }
+          </div>
+        )}
+      </div>
+    </>
   );
 }
