@@ -29,7 +29,6 @@ export default async function SingleBlink({
           </div>
         </div>
       </div>
-
     </>
   );
 }
