@@ -1,4 +1,16 @@
 services:
+  ui:
+    container_name: ui
+    depends_on:
+      - rest-server
+      - db
+    build:
+      context: ./ui
+      dockerfile: ./Dockerfile
+    ports:
+      - 3000:3000
+    networks:
+      - blinkrnet
   rest-server:
     container_name: rest-server
     depends_on:
