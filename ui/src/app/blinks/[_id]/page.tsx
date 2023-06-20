@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Blink } from "../page";
 
 async function getBlink(_id: string) {
-  const res = await fetch(`http://localhost:8000/blinks/list/${_id}`);
+  const res = await fetch(`http://rest-server:8000/blinks/list/${_id}`);
   return res.json();
 }
 

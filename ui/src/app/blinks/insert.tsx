@@ -4,6 +4,7 @@ import { useState } from "react"
 import { Blink } from "./page"
 
 const postBlink = async (data: Blink) => {
+
     const res = await fetch("http://localhost:8000/blinks/create/one", {
         method: "POST",
         headers: {
@@ -23,7 +24,7 @@ const postBlink = async (data: Blink) => {
 export default function InsertBlink() {
     const [blink, setBlink] = useState<Blink>({ title: "", message: "" })
 
-    const handleInput = (e) => {
+    const handleInput = (e: React.FormEvent) => {
         e.preventDefault()
 
         postBlink(blink)

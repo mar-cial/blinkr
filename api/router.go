@@ -1,6 +1,7 @@
 package api
 
 import (
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -20,6 +21,7 @@ func CreateRouter(uri string) (*gin.Engine, error) {
 
 	// middleware
 	r.Use(middleware())
+	r.Use(cors.Default())
 
 	// routes
 	r.POST("/blinks/create/one", bc.insertOne)

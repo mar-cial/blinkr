@@ -3,7 +3,7 @@ import InsertBlink from "./insert";
 
 async function getData() {
   try {
-    const res = await fetch("http://localhost:8000/blinks/list", { cache: "no-store" })
+    const res = await fetch("http://rest-server:8000/blinks/list", { cache: "no-store" })
     if (!res.ok) {
       throw new Error("Network response was not ok")
     }
@@ -47,7 +47,7 @@ export default async function Home() {
             {
               data.map((b) => {
                 return (
-                  <Link href={`/blinks/${b._id}`}>
+                  <Link href={`/blinks/${b._id}`} key={b._id}>
                     <div key={b._id}>
                       <h3 className="text-xl font-medium">{b.title}</h3>
                     </div>
