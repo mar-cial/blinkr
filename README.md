@@ -4,10 +4,6 @@ A REST-ful API with CRUD functionality written in Go.
 
 This application uses MongoDB for data storage. It lets you create, read, update and delete an object called "Blink"from the MongoDB container using http requests.
 
-# REST API README
-
-This README provides an overview and instructions for the REST API written in Go. The API allows for performing various CRUD operations on resources.
-
 ## Table of Contents
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
